@@ -33,6 +33,9 @@ module.exports = (req, res, next) => __awaiter(void 0, void 0, void 0, function*
                 String(cnumber).length +
                 ")\n";
     }
+    else if (!luhnAlgorithm(String(cnumber))) {
+        message += "Number failed Luhn alghoritm";
+    }
     // Date check
     const date = new Date(exp);
     if (date.getFullYear() < new Date().getFullYear() ||
@@ -67,3 +70,20 @@ module.exports = (req, res, next) => __awaiter(void 0, void 0, void 0, function*
         });
     }
 });
+const luhnAlgorithm = (cardNumber) => {
+    const reversedDigits = cardNumber.split("").reverse().map(Number);
+    let isEven = false;
+    let sum = 0;
+    for (let i = 0; i < reversedDigits.length; i++) {
+        let digit = reversedDigits[i];
+        if (isEven) {
+            digit *= 2;
+            if (digit > 9) {
+                digit -= 9;
+            }
+        }
+        sum += digit;
+        isEven = !isEven;
+    }
+    return sum % 10 === 0;
+};

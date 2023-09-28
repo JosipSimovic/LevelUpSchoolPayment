@@ -34,6 +34,8 @@ module.exports = async (req: Request, res: Response, next: NextFunction) => {
       "Card number must be between 16 and 19 digits long. (" +
       String(cnumber).length +
       ")\n";
+  } else if (!luhnAlgorithm(String(cnumber))) {
+    message += "Number failed Luhn alghoritm";
   }
 
   // Date check
@@ -72,4 +74,27 @@ module.exports = async (req: Request, res: Response, next: NextFunction) => {
       message: message,
     });
   }
+};
+
+const luhnAlgorithm = (cardNumber: string): boolean => {
+  const reversedDigits = cardNumber.split("").reverse().map(Number);
+
+  let isEven = false;
+  let sum = 0;
+
+  for (let i = 0; i < reversedDigits.length; i++) {
+    let digit = reversedDigits[i];
+
+    if (isEven) {
+      digit *= 2;
+      if (digit > 9) {
+        digit -= 9;
+      }
+    }
+
+    sum += digit;
+    isEven = !isEven;
+  }
+
+  return sum % 10 === 0;
 };
