@@ -1,6 +1,6 @@
 import express from "express";
 
-const routes = require("./api-routes");
+const routes = require("./routes/api-routes");
 const bodyParser = require("body-parser");
 
 const app = express();

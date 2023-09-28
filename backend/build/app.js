@@ -4,7 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
-const routes = require("./api-routes");
+const routes = require("./routes/api-routes");
 const bodyParser = require("body-parser");
 const app = (0, express_1.default)();
 app.use((req, res, next) => {
