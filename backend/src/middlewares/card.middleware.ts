@@ -6,7 +6,7 @@ export class CardMiddleware {
   constructor(private readonly cardService: CardService) {}
 
   @bind
-  verifyCard(req: Request, res: Response, next: NextFunction) {
+  async verifyCard(req: Request, res: Response, next: NextFunction) {
     const {
       name,
       cnumber,
@@ -33,6 +33,9 @@ export class CardMiddleware {
         .status(400)
         .json({ message: "Date must be later than present date." });
     }
+
+    // Await 2 seconds to simulate card processing
+    await new Promise((r) => setTimeout(r, 2000));
 
     next();
   }

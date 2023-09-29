@@ -7,9 +7,6 @@ export class CardController {
   async confirmPayment(req: Request, res: Response, next: NextFunction) {
     const { cnumber, cvv }: { cnumber: number; cvv: number } = req.body;
 
-    // Await 2 seconds to simulate card processing
-    await new Promise((r) => setTimeout(r, 2000));
-
     res.status(200).json({
       message: `Payment succesfull for card '${cnumber}' with CVV '${cvv}'`,
     });

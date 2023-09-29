@@ -2,9 +2,6 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CardService = void 0;
 class CardService {
-    confirmPayment(cnumber, cvv) {
-        return { message: `Payment succesfull with card ${cnumber}` };
-    }
     checkCvv(cnumber, cvv) {
         // American Express check
         let isAmerican = false;

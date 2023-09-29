@@ -1,8 +1,4 @@
 export class CardService {
-  confirmPayment(cnumber: number, cvv: number) {
-    return { message: `Payment succesfull with card ${cnumber}` };
-  }
-
   checkCvv(cnumber: number, cvv: number): { status: boolean; message: string } {
     // American Express check
     let isAmerican = false;

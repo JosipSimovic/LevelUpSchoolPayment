@@ -17,8 +17,6 @@ class CardController {
     confirmPayment(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {
             const { cnumber, cvv } = req.body;
-            // Await 2 seconds to simulate card processing
-            yield new Promise((r) => setTimeout(r, 2000));
             res.status(200).json({
                 message: `Payment succesfull for card '${cnumber}' with CVV '${cvv}'`,
             });
