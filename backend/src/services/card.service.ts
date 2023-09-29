@@ -68,4 +68,10 @@ export class CardService {
       return { status: false, message: "Card failed Luhn alghoritm" };
     }
   }
+
+  confirmPayment(cnumber: number, cvv: number) {
+    return {
+      message: `Payment succesfull for card '${cnumber}' with CVV '${cvv}'`,
+    };
+  }
 }

@@ -7,8 +7,6 @@ export class CardController {
   async confirmPayment(req: Request, res: Response, next: NextFunction) {
     const { cnumber, cvv }: { cnumber: number; cvv: number } = req.body;
 
-    res.status(200).json({
-      message: `Payment succesfull for card '${cnumber}' with CVV '${cvv}'`,
-    });
+    res.status(200).json(this.cardService.confirmPayment(cnumber, cvv));
   }
 }

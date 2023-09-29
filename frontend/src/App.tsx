@@ -81,8 +81,9 @@ function App() {
 
   useEffect(() => {
     return () => {
-      activeFetchRequests.current.forEach((controller) => controller.abort());
-      alert("User aborted request.");
+      activeFetchRequests.current.forEach((controller) => {
+        controller.abort();
+      });
     };
   }, []);
 
