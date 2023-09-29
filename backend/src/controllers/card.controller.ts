@@ -4,7 +4,7 @@ import { CardService } from "../services/card.service";
 export class CardController {
   constructor(private readonly cardService: CardService) {}
 
-  confirmPayment = async (req: Request, res: Response, next: NextFunction) => {
+  async confirmPayment(req: Request, res: Response, next: NextFunction) {
     const { cnumber, cvv }: { cnumber: number; cvv: number } = req.body;
 
     // Await 2 seconds to simulate card processing
@@ -13,5 +13,5 @@ export class CardController {
     res.status(200).json({
       message: `Payment succesfull for card '${cnumber}' with CVV '${cvv}'`,
     });
-  };
+  }
 }
