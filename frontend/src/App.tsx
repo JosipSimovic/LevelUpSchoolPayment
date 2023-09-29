@@ -51,6 +51,7 @@ function App() {
         });
 
         const responseData = await response.json();
+        console.log(responseData);
 
         if (!response.ok) {
           setIsLoading(false);

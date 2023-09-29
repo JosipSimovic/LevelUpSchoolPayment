@@ -1,23 +1,24 @@
 import express from "express";
+import { CardService } from "./services/card.service";
+import { CardMiddleware } from "./middlewares/card.middleware";
+import cors from "cors";
 
-const routes = require("./routes/api-routes");
-const bodyParser = require("body-parser");
+import bodyParser from "body-parser";
+import { CardController } from "./controllers/card.controller";
+
+const cardService = new CardService();
+const cardMiddleware = new CardMiddleware(cardService);
+const cardController = new CardController(cardService);
 
 const app = express();
 
-app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader(
-    "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content-Type, Accept, Authorization, admin_id"
-  );
-  res.setHeader("Access-Control-Allow-Methods", "GET, POST, PATCH, DELETE");
-  next();
-});
+app.use(cors());
 
 app.use(bodyParser.json());
 
-app.use("/", routes);
+app.use("/card", cardMiddleware.verifyCard);
+
+app.use("/card", cardController.confirmPayment);
 
 app.listen(5000);
 console.log("Listening on port 5000");

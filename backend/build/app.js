@@ -4,16 +4,18 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
-const routes = require("./routes/api-routes");
-const bodyParser = require("body-parser");
+const card_service_1 = require("./services/card.service");
+const card_middleware_1 = require("./middlewares/card.middleware");
+const cors_1 = __importDefault(require("cors"));
+const body_parser_1 = __importDefault(require("body-parser"));
+const card_controller_1 = require("./controllers/card.controller");
+const cardService = new card_service_1.CardService();
+const cardMiddleware = new card_middleware_1.CardMiddleware(cardService);
+const cardController = new card_controller_1.CardController(cardService);
 const app = (0, express_1.default)();
-app.use((req, res, next) => {
-    res.setHeader("Access-Control-Allow-Origin", "*");
-    res.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization, admin_id");
-    res.setHeader("Access-Control-Allow-Methods", "GET, POST, PATCH, DELETE");
-    next();
-});
-app.use(bodyParser.json());
-app.use("/", routes);
+app.use((0, cors_1.default)());
+app.use(body_parser_1.default.json());
+app.use("/card", cardMiddleware.verifyCard);
+app.use("/card", cardController.confirmPayment);
 app.listen(5000);
 console.log("Listening on port 5000");
