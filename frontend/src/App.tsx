@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { useState } from "react";
 
 import "./App.css";
@@ -16,6 +16,9 @@ function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [isApproved, setIsApproved] = useState(false);
+  const [approvedMessage, setApprovedMessage] = useState("");
+
+  const activeFetchRequests = useRef<AbortController[]>([]);
 
   const checkForm = async () => {
     setIsLoading(true);
@@ -42,16 +45,23 @@ function App() {
       };
 
       if (import.meta.env.VITE_API_URL !== undefined) {
+        const fetchAbortController = new AbortController();
+        activeFetchRequests.current.push(fetchAbortController);
+
         const response = await fetch(import.meta.env.VITE_API_URL, {
           method: "POST",
           body: JSON.stringify(formData),
           headers: {
             "Content-Type": "application/json",
           },
+          signal: fetchAbortController.signal,
         });
 
-        const responseData = await response.json();
-        console.log(responseData);
+        const responseData: { message: string } = await response.json();
+
+        activeFetchRequests.current = activeFetchRequests.current.filter(
+          (controller) => controller !== fetchAbortController
+        );
 
         if (!response.ok) {
           setIsLoading(false);
@@ -60,6 +70,7 @@ function App() {
 
         setIsLoading(false);
         setIsApproved(true);
+        setApprovedMessage(responseData.message);
       }
     } catch (error) {
       setIsLoading(false);
@@ -67,6 +78,13 @@ function App() {
       throw new Error((error as Error).message);
     }
   };
+
+  useEffect(() => {
+    return () => {
+      activeFetchRequests.current.forEach((controller) => controller.abort());
+      alert("User aborted request.");
+    };
+  }, []);
 
   return (
     <React.Fragment>
@@ -86,7 +104,7 @@ function App() {
         {isApproved && (
           <BootstrapModal
             header="Congratulations"
-            message={"Card succesfully approved!"}
+            message={approvedMessage}
             onClose={() => setIsApproved(false)}
           />
         )}
