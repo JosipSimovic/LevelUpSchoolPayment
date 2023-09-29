@@ -1,6 +1,14 @@
 # LevelUpSchoolPayment
 
-### Starting the frontent server
+### Installing dependencies
+
+To install dependencies, using the terminal, move to \frontend and \backend and run:
+
+```
+npm install
+```
+
+### Starting the frontend server
 
 Navigate to \frontend in terminal and run command:
 
