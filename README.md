@@ -8,6 +8,12 @@ To install dependencies, using the terminal, move to \frontend and \backend and 
 npm install
 ```
 
+Navigate to \backend and run command to compile TypeScript files:
+
+```
+tsc
+```
+
 ### Starting the frontend server
 
 Navigate to \frontend in terminal and run command:
